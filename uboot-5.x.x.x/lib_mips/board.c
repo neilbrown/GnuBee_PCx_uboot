@@ -1459,7 +1459,7 @@ int flash_kernel_image_from_usb(cmd_tbl_t *cmdtp)
 	argv[1] = "usb";
 	argv[2] = &dev_str[0];
 	argv[3] = &addr_str[0];
-	argv[4] = "root_uImage";
+	argv[4] = "gnubee.bin";
 
 	done = 0;
 	for (i = 0; i < USB_MAX_STOR_DEV; ++i) {

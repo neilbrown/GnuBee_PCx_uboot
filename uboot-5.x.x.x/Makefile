@@ -243,8 +243,8 @@ u-boot.srec:	u-boot
 
 ifeq ($(MT7621_MP), y)
 ifeq ($(CFG_ENV_IS), IN_NAND)
-uboot_a.bin:	uboot.bin mt7621_stage_L2.bin
-		cp mt7621_stage_L2.bin uboot_a.bin
+uboot_a.bin:	uboot.bin mt7621_stage_L2_noprint.bin
+		cp mt7621_stage_L2_noprint.bin uboot_a.bin
 ifeq ($(MT7621_CPU_800MHZ), y)
 		echo "0 725a00c0"|xxd -r|dd bs=1 seek=32 of=uboot_a.bin conv=notrunc
 endif
@@ -264,13 +264,13 @@ ifneq ($(CONFIG_BAUDRATE_57600), y)
 endif
 		chmod 777 uboot_a.bin
 		dd if=uboot.bin of=uboot_a.bin bs=1 count=$(shell stat -c %s uboot.bin) \
-		seek=$(shell echo "(($(shell stat -c %s mt7621_stage_L2.bin)+4095)/4096)*4096-64" |bc) conv=notrunc
+		seek=$(shell echo "(($(shell stat -c %s mt7621_stage_L2_noprint.bin)+4095)/4096)*4096-64" |bc) conv=notrunc
 		cp uboot_a.bin uboot.bin
 else
-uboot_a.bin:	uboot.bin mt7621_stage_sram.bin
+uboot_a.bin:	uboot.bin mt7621_stage_sram_noprint.bin
 		cp uboot.bin uboot_a.bin
 		chmod 777 uboot_a.bin
-		dd if=mt7621_stage_sram.bin of=uboot_a.bin bs=1 count=$(shell stat -c %s mt7621_stage_sram.bin) \
+		dd if=mt7621_stage_sram_noprint.bin of=uboot_a.bin bs=1 count=$(shell stat -c %s mt7621_stage_sram_noprint.bin) \
 		seek=$(shell stat -c %s uboot.bin)
 ifeq ($(MT7621_CPU_800MHZ), y)
 		echo "0 725a00c0"|xxd -r|dd bs=1 of=uboot_a.bin seek=$(shell echo "(($(shell stat -c %s uboot.bin)+32))" |bc)  conv=notrunc
@@ -325,7 +325,7 @@ else
 		-n "$(shell echo $(CFG_ENV_IS) | sed -e 's/IN_//') Flash Image" \
 		-r $(DRAM_TYPE) -s $(DRAM_TOTAL_WIDTH) -t $(DRAM_SIZE) -u $(DRAM_WIDTH) \
 		-y $(shell echo "40") \
-		-z $(shell echo "obase=16;(($(shell stat -c %s mt7621_stage_L2.bin)+64+4095)/4096)*4096" |bc) -d $< $@
+		-z $(shell echo "obase=16;(($(shell stat -c %s mt7621_stage_L2_noprint.bin)+64+4095)/4096)*4096" |bc) -d $< $@
 #		@rm -fr uboot_a.bin
 endif
 endif
