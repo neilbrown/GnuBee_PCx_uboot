@@ -2164,6 +2164,18 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 	    s = getenv ("bootdelay");
 	    timer1 = s ? (int)simple_strtol(s, NULL, 10) : CONFIG_BOOTDELAY;
 	}
+/**** update firmware if present on USB *****/
+#if defined (RALINK_USB) || defined (MTK_USB)
+	setenv("autostart", "no");
+
+	if (!flash_kernel_image_from_usb(cmdtp)){
+		printf("Firmware upgrade complete\n");
+		printf("Remove USB drive and reset board\n");
+		while (1);
+	//	perform_system_reset();
+	}
+#endif // RALINK_UPGRADE_BY_USB //
+/********************************************/
 
 	OperationSelect();   
 	while (timer1 > 0) {
