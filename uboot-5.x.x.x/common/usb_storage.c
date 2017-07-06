@@ -178,9 +178,19 @@ block_dev_desc_t *usb_stor_get_dev(int index)
 }
 
 
+static int read_progress_counter;
+static int read_dot_counter;
 void usb_show_progress(void)
 {
-	printf(".");
+	read_progress_counter++;
+	if (read_progress_counter % 10 == 0){
+		read_dot_counter++;
+		if (read_dot_counter % 70 == 0)
+			printf("\n");
+		printf(".");
+		mtk_set_gpio_pin(GPIO_LED_INIT1, !mtk_get_gpio_pin(GPIO_LED_INIT1));
+	}
+
 }
 
 /*********************************************************************************

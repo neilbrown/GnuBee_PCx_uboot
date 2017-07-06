@@ -2171,6 +2171,8 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 	if (!flash_kernel_image_from_usb(cmdtp)){
 		printf("Firmware upgrade complete\n");
 		printf("Remove USB drive and reset board\n");
+		mtk_set_gpio_pin(GPIO_LED_INIT1, 1);
+		mtk_set_gpio_pin(GPIO_LED_INIT2, !mtk_get_gpio_pin(GPIO_LED_INIT1));
 		while (1);
 	//	perform_system_reset();
 	}
@@ -2180,6 +2182,7 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 	OperationSelect();   
 	while (timer1 > 0) {
 		--timer1;
+		mtk_set_gpio_pin(GPIO_LED_INIT1, !mtk_get_gpio_pin(GPIO_LED_INIT1));
 		/* delay 100 * 10ms */
 		for (i=0; i<100; ++i) {
 			if ((my_tmp = tstc()) != 0) {	/* we got a key press	*/

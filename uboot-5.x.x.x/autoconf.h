@@ -76,8 +76,8 @@
 #define GPIO_BTN_ROUTER (-1)
 #undef  GPIO_LED_INVERTED
 #define GPIO_LED_ALL (-1)
-#define GPIO_LED_INIT1 (24)
-#define GPIO_LED_INIT2 (-1)
+#define GPIO_LED_INIT1 (6)
+#define GPIO_LED_INIT2 (8)
 #define GPIO_LED_INIT3 (-1)
 #define GPIO_LED_INIT4 (-1)
 #define GPIO_LED_INIT5 (-1)
