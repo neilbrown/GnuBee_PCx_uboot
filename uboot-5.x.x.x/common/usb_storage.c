@@ -188,7 +188,8 @@ void usb_show_progress(void)
 		if (read_dot_counter % 70 == 0)
 			printf("\n");
 		printf(".");
-		mtk_set_gpio_pin(GPIO_LED_INIT1, !mtk_get_gpio_pin(GPIO_LED_INIT1));
+		ra_outl(0xbe000620, (ra_inl(0xbe000620) ^ (1U << 6)));
+		///mtk_set_gpio_pin(GPIO_LED_INIT1, !mtk_get_gpio_pin(GPIO_LED_INIT1));
 	}
 
 }
