@@ -640,7 +640,6 @@ unsigned long raspi_init(void)
 	return spi_chip_info->sector_size * spi_chip_info->n_sectors;
 }
 
-static int erase_progress_counter;
 static int erase_dot_counter;
 int raspi_erase(unsigned int offs, int len)
 {
@@ -663,6 +662,7 @@ int raspi_erase(unsigned int offs, int len)
 		raspi_4byte_mode(1);
 
 	/* now erase those sectors */
+	printf("erasing flash \n");
 	while (len > 0) {
 		if (raspi_erase_sector(offs)) {
 			ret = -1;
@@ -671,14 +671,12 @@ int raspi_erase(unsigned int offs, int len)
 		offs += spi_chip_info->sector_size;
 		len -= spi_chip_info->sector_size;
 		LED_ALERT_BLINK();
-		erase_progress_counter++;
-		if (erase_progress_counter % 10 == 0){
-			erase_dot_counter++;
-			if (erase_dot_counter % 70 == 0)
-				printf("\n");
-			printf(".");
+		erase_dot_counter++;
+		if (erase_dot_counter % 70 == 0)
+			printf("\n");
+		printf(".");
 		//	mtk_set_gpio_pin(6, !mtk_get_gpio_pin(6));
-		}
+		ra_outl(0xbe000620, (ra_inl(0xbe000620) ^ (1U << 6)));
 	}
 
 	if (spi_chip_info->addr4b)
@@ -749,7 +747,6 @@ int raspi_read(char *buf, unsigned int from, int len)
 	return rdlen;
 }
 
-static int write_progress_counter;
 static int write_dot_counter;
 int raspi_write(char *buf, unsigned int to, int len)
 {
@@ -785,6 +782,7 @@ int raspi_write(char *buf, unsigned int to, int len)
 	more = 4;
 #endif
 
+	printf("writing flash \n");
 	/* write everything in PAGESIZE chunks */
 	while (len > 0) {
 		page_size = min(len, FLASH_PAGESIZE-page_offset);
@@ -828,14 +826,12 @@ int raspi_write(char *buf, unsigned int to, int len)
 		if ((retlen & 0xffff) == 0)
 		{
 			LED_ALERT_BLINK();
-			write_progress_counter++;
-			if (write_progress_counter % 10 == 0){
-				write_dot_counter++;
-				if (write_dot_counter % 70 == 0)
-					printf("\n");
-				printf(".");
-//				mtk_set_gpio_pin(6, !mtk_get_gpio_pin(6));
-			}
+			write_dot_counter++;
+			if (write_dot_counter % 70 == 0)
+				printf("\n");
+			printf(".");
+//			mtk_set_gpio_pin(6, !mtk_get_gpio_pin(6));
+			ra_outl(0xbe000620, (ra_inl(0xbe000620) ^ (1U << 6)));
 		}
 
 		if (rc > 0) {
