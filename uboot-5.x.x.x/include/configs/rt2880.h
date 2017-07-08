@@ -507,13 +507,106 @@ extern unsigned int  CFG_BLOCKSIZE;
 #endif /* RALINK_USB */
 
 #if defined (MT7621_ASIC_BOARD) || defined (MT7621_FPGA_BOARD)
-//#define USE_PIO_DBG		1
+/*
+ *
+ *  * Web Failsafe configuration
+ *
+ *   */
+#if 0
+    #define OLED_1_3
+#else 
+    #define LED_POWER
 #endif
+//#define GPIO_TEST
+
+#define CONFIG_NET_MULTI
+#define CONFIG_NET_VLAN
+#define milisecdelay(_x)			udelay((_x) * 1000)
+#define milisecdelay(_x)			udelay((_x) * 1000)
+
+
+
+
+#define WEBFAILSAFE_UPLOAD_UBOOT_ADDRESS   0x0
+
+#define WEBFAILSAFE_UPLOAD_KERNEL_ADDRESS   0x50000
+
+
+//从内存中加载的地址这个地址是正确的
+#if defined (RT2880_ASIC_BOARD) || defined (RT2880_FPGA_BOARD)
+	#define WEBFAILSAFE_UPLOAD_RAM_ADDRESS	  0x8a100000
+#else
+	#define WEBFAILSAFE_UPLOAD_RAM_ADDRESS   0x80100000
+#endif
+
+
+
+// U-Boot partition size
+
+#define WEBFAILSAFE_UPLOAD_UBOOT_SIZE_IN_BYTES  (0x30000)
+#define UPDATE_SCRIPT_UBOOT_SIZE_IN_BYTES        "0x10000"
+
+
+
+// ART partition size
+
+#define WEBFAILSAFE_UPLOAD_ART_SIZE_IN_BYTES       (64 * 1024)
+//#define WEBFAILSAFE_UPLOAD_ART_ADDRESS       WEBFAILSAFE_UPLOAD_KERNEL_ADDRESS+0x600000
+#define WEBFAILSAFE_UPLOAD_ART_ADDRESS       0x40000
+
+
+// max. firmware size <= (FLASH_SIZE -  WEBFAILSAFE_UPLOAD_LIMITED_AREA_IN_BYTES)
+
+// TP-Link: 64k(U-Boot),64k(MAC/model/WPS pin block),64k(ART)
+
+#define WEBFAILSAFE_UPLOAD_LIMITED_AREA_IN_BYTES     (192 * 1024)
+
+
+
+// progress state info
+
+#define WEBFAILSAFE_PROGRESS_START         0
+
+#define WEBFAILSAFE_PROGRESS_TIMEOUT         1
+
+#define WEBFAILSAFE_PROGRESS_UPLOAD_READY	2
+
+#define WEBFAILSAFE_PROGRESS_UPGRADE_READY	3
+
+#define WEBFAILSAFE_PROGRESS_UPGRADE_FAILED	4
+
+
+
+// update type
+
+#define WEBFAILSAFE_UPGRADE_TYPE_FIRMWARE     0
+#define WEBFAILSAFE_UPGRADE_TYPE_UBOOT  1
+#define WEBFAILSAFE_UPGRADE_TYPE_FACTORY    2
+
+
+
+// progress state info
+#define WEBFAILSAFE_PROGRESS_START				0
+#define WEBFAILSAFE_PROGRESS_TIMEOUT			1
+#define WEBFAILSAFE_PROGRESS_UPLOAD_READY		2
+#define WEBFAILSAFE_PROGRESS_UPGRADE_READY		3
+#define WEBFAILSAFE_PROGRESS_UPGRADE_FAILED		4
+
+// update type
+#define WEBFAILSAFE_UPGRADE_TYPE_FIRMWARE		0
+#define WEBFAILSAFE_UPGRADE_TYPE_UBOOT			1
+#define WEBFAILSAFE_UPGRADE_TYPE_FACTORY		2
+
+
+/*-----------------------------------------------------------------------*/
+
+//xxxxx
 
 #if defined(MT7628_ASIC_BOARD)
 #define PHY_BASE                0xB0120000
 #define SIFSLV_FM_FEG_BASE      (PHY_BASE+0xf00)
 #define U2_PHY_BASE             (PHY_BASE+0x800)
+#endif
 #endif
 
 #endif	/* __CONFIG_H */

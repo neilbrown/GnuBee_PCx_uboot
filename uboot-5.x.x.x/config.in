@@ -1678,14 +1678,14 @@ fi
 
 comment "GPIO pins (-1 mean unused)"
 
-int  'BTN Reset GPIO'		GPIO_BTN_RESET		-1
+int  'BTN Reset GPIO'		GPIO_BTN_RESET		18
 int  'BTN WPS GPIO'		GPIO_BTN_WPS		-1
 int  'BTN Misc #1 GPIO'		GPIO_BTN_WLTOG		-1
 int  'BTN Misc #2 GPIO'		GPIO_BTN_ROUTER		-1
 bool 'LED Pins Inverted'	GPIO_LED_INVERTED	n
 int  'LED All GPIO'		GPIO_LED_ALL		-1
-int  'LED Init1 GPIO'		GPIO_LED_INIT1		-1
-int  'LED Init2 GPIO'		GPIO_LED_INIT2		-1
+int  'LED Init1 GPIO'		GPIO_LED_INIT1		6
+int  'LED Init2 GPIO'		GPIO_LED_INIT2		8
 int  'LED Init3 GPIO'		GPIO_LED_INIT3		-1
 int  'LED Init4 GPIO'		GPIO_LED_INIT4		-1
 int  'LED Init5 GPIO'		GPIO_LED_INIT5		-1

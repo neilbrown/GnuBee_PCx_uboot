@@ -43,6 +43,7 @@ VENDOR=
 
 TOPDIR	:= $(shell if [ "$$PWD" != "" ]; then echo $$PWD; else pwd; fi)
 export	TOPDIR
+export CONFIG_BOOTDELAY=5
 
 ifeq ($(MT7621_MP), y)
 CONFIG_CROSS_COMPILER_PATH ?= /opt/mips-2012.03/bin
@@ -184,13 +185,15 @@ OBJS += cpu/$(CPU)/resetvec.o
 endif
 
 LIBS  = lib_generic/libgeneric.a
+LIBS += net/libnet.a
 LIBS += board/$(BOARDDIR)/lib$(BOARD).a
 LIBS += cpu/$(CPU)/lib$(CPU).a
 ifdef SOC
 LIBS += cpu/$(CPU)/$(SOC)/lib$(SOC).a
 endif
 LIBS += lib_$(ARCH)/lib$(ARCH).a
-LIBS += net/libnet.a
+LIBS += httpd/libhttpd.a
+#LIBS += peripheral/libperipheral.a
 
 #LIBS += rtc/librtc.a
 LIBS += drivers/libdrivers.a

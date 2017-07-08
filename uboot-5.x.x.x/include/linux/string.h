@@ -18,9 +18,7 @@ extern __kernel_size_t strspn(const char *,const char *);
 /*
  * Include machine specific inline routines
  */
-#ifndef CONFIG_MIPS16
 #include <asm/string.h>
-#endif
 #ifndef __HAVE_ARCH_STRCPY
 extern char * strcpy(char *,const char *);
 #endif
@@ -48,9 +46,9 @@ extern char * strchr(const char *,int);
 #ifndef __HAVE_ARCH_STRRCHR
 extern char * strrchr(const char *,int);
 #endif
-#ifndef __HAVE_ARCH_STRSTR
+//#ifndef __HAVE_ARCH_STRSTR
 extern char * strstr(const char *,const char *);
-#endif
+//#endif
 #ifndef __HAVE_ARCH_STRLEN
 extern __kernel_size_t strlen(const char *);
 #endif
