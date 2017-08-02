@@ -1420,7 +1420,20 @@ fi
 
 comment ""
 
-choice 'CPU Frequency' "900Mhz MT7621_CPU_900MHZ \
+choice 'CPU Frequency' "1.40GHz MT7621_CPU_1400MHZ \
+			1.38GHz MT7621_CPU_1380MHZ \
+			1.36GHz MT7621_CPU_1360MHZ \
+			1.34GHz MT7621_CPU_1340MHZ \
+			1.32GHz MT7621_CPU_1320MHZ \
+			1.30GHz MT7621_CPU_1300MHZ \
+			1.28GHz MT7621_CPU_1280MHZ \
+			1.26GHz MT7621_CPU_1260MHZ \
+			1.24GHz MT7621_CPU_1240MHZ \
+			1.22GHz MT7621_CPU_1220MHZ \
+			1.20GHz MT7621_CPU_1200MHZ \
+			1.10GHz MT7621_CPU_1100MHZ \
+			1.00GHz MT7621_CPU_1000MHZ \
+			900Mhz MT7621_CPU_900MHZ \
 			880Mhz MT7621_CPU_880MHZ \
 			875Mhz MT7621_CPU_875MHZ \
 			800Mhz MT7621_CPU_800MHZ \
@@ -1428,6 +1441,45 @@ choice 'CPU Frequency' "900Mhz MT7621_CPU_900MHZ \
 			50Mhz MT7621_CPU_50MHZ
 			" 880Mhz
 
+if [ "$MT7621_CPU_1400MHZ" = "y" ]; then
+    define_hex  MT7621_CPU_FREQUENCY    578
+fi
+if [ "$MT7621_CPU_1380MHZ" = "y" ]; then
+    define_hex  MT7621_CPU_FREQUENCY    564
+fi
+if [ "$MT7621_CPU_1360MHZ" = "y" ]; then
+    define_hex  MT7621_CPU_FREQUENCY    550
+fi
+if [ "$MT7621_CPU_1340MHZ" = "y" ]; then
+    define_hex  MT7621_CPU_FREQUENCY    53C
+fi
+if [ "$MT7621_CPU_1320MHZ" = "y" ]; then
+    define_hex  MT7621_CPU_FREQUENCY    528
+fi
+if [ "$MT7621_CPU_1300MHZ" = "y" ]; then
+    define_hex  MT7621_CPU_FREQUENCY    514
+fi
+if [ "$MT7621_CPU_1280MHZ" = "y" ]; then
+    define_hex  MT7621_CPU_FREQUENCY    500
+fi
+if [ "$MT7621_CPU_1260MHZ" = "y" ]; then
+    define_hex  MT7621_CPU_FREQUENCY    4EC
+fi
+if [ "$MT7621_CPU_1240MHZ" = "y" ]; then
+    define_hex  MT7621_CPU_FREQUENCY    4D8
+fi
+if [ "$MT7621_CPU_1220MHZ" = "y" ]; then
+    define_hex  MT7621_CPU_FREQUENCY    4C4
+fi
+if [ "$MT7621_CPU_1200MHZ" = "y" ]; then
+    define_hex  MT7621_CPU_FREQUENCY    4B0
+fi
+if [ "$MT7621_CPU_1100MHZ" = "y" ]; then
+    define_hex  MT7621_CPU_FREQUENCY    44C
+fi
+if [ "$MT7621_CPU_1000MHZ" = "y" ]; then
+    define_hex  MT7621_CPU_FREQUENCY    3E8
+fi
 if [ "$MT7621_CPU_900MHZ" = "y" ]; then
     define_hex  MT7621_CPU_FREQUENCY    384
 fi
