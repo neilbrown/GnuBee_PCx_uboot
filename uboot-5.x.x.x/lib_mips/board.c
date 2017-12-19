@@ -1535,6 +1535,7 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 	bd_t *bd;
 	int i;
 	int timer1= CONFIG_BOOTDELAY;
+	int webtimer1= CONFIG_WEBDELAY;
 	unsigned char confirm=0;
 	int is_soft_reset=0;
 	int my_tmp;
@@ -2205,24 +2206,46 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 #endif // RALINK_UPGRADE_BY_USB //
 /********************************************/
 
-	OperationSelect();   
+	OperationSelect();
+/*	int menudelay = timer1 * 10;
+	int webdelay = webtimer1 * 10;*/
 	while (timer1 > 0) {
 		--timer1;
 		//mtk_set_gpio_pin(GPIO_LED_INIT1, !mtk_get_gpio_pin(GPIO_LED_INIT1));
 		ra_outl(0xbe000620, (ra_inl(0xbe000620) ^ (1U << 6)));
+	/*	if (timer1 <= webtimer1) {
+			if (menudelay % 10 == 0) {
+				ra_outl(0xbe000620, (ra_inl(0xbe000620) ^ (1U << 6)));
+			}
+		}
+		else {
+			if (menudelay % 5 == 0) {
+				ra_outl(0xbe000620, (ra_inl(0xbe000620) ^ (1U << 6)));
+			}
+		}*/
 		/* delay 100 * 10ms */
 		for (i=0; i<100; ++i) {
 			if ((my_tmp = tstc()) != 0) {	/* we got a key press	*/
 				timer1 = 0;	/* no more delay	*/
+				/* menudelay = 0; */	/* no more delay	*/
 				BootType = getc();
 				if ((BootType < '0' || BootType > '5') && (BootType != '6') && (BootType != '7') && (BootType != '8') && (BootType != '9'))
 					BootType = '3';
 				printf("\n\rYou chose %c\n\n", BootType);
 				break;
+
+			}
+			if (timer1 <= webtimer1) {
+				if (DETECT_BTN_RESET()) {		/* RESET button */
+					timer1 = 0;	/* no more delay	*/
+					BootType = '6';
+					printf("\n\rWeb Recovery Activated \n\n");
+				}
 			}
 			udelay (10000);
 		}
 		printf ("\b\b\b%2d ", timer1);
+	/*	printf ("\b\b\b%2d ", menudelay/10); */
 	}
 
 #if (CONFIG_COMMANDS & CFG_CMD_NET)
