@@ -99,7 +99,7 @@ extern unsigned int  CFG_BLOCKSIZE;
 #endif
 
 #define CONFIG_BOOTDELAY	5	/* autoboot after 5 seconds	*/
-#define CONFIG_WEBDELAY	3	/* webload can be activated with button for 3 seconds */
+#define CONFIG_TFTPINTERVAL	2	/*tftpload can be activated with button for last 2 seconds */
 
 #define CONFIG_SERVERIP 192.168.1.2
 #define CONFIG_IPADDR 192.168.1.1

@@ -33,7 +33,7 @@
 
 extern int do_bootm (cmd_tbl_t *, int, int, char *[]);
 extern int modifies;
-static int netboot_common (int, cmd_tbl_t *, int , char *[]);
+extern int netboot_common (int, cmd_tbl_t *, int , char *[]);
 
 #ifdef RALINK_CMDLINE
 #ifdef RT2880_U_BOOT_CMD_OPEN
@@ -153,7 +153,7 @@ static void netboot_update_env (void)
 }
 #endif
 
-static int
+extern int
 netboot_common (int proto, cmd_tbl_t *cmdtp, int argc, char *argv[])
 {
 	char *s;
