@@ -2207,7 +2207,6 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 /********************************************/
 	OperationSelect();
 	int buttondelay = 0;
-	int useEnvAddy =0;
 	while (timer1 > 0) {
 		--timer1;
 		/* toggle led */;
@@ -2233,10 +2232,8 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 			}
 			if (buttondelay >= 10){
 				if (timer1 < tftpinterval){
-					BootType = '2';
-					printf("\n\rTFTP  Recovery Activated \n\n");
+					BootType = '3';
 					timer1 = 0; /* zero delay so we will exit while loop */
-					useEnvAddy =1;
 					break;
 				}
 				else{
@@ -2288,21 +2285,16 @@ __attribute__((nomips16)) void board_init_r (gd_t *id, ulong dest_addr)
 retry_kernel_tftp:
 			printf("   \n%d: System Load %s then write to Flash via %s. \n", SEL_LOAD_LINUX_WRITE_FLASH, "Linux", "TFTP");
 			printf(" Warning!! Erase %s in Flash then burn new one. Are you sure? (Y/N)\n", "Linux");
-			if (useEnvAddy == 0){
-				confirm = getc();
-				if (confirm != 'y' && confirm != 'Y') {
-					printf(" Operation terminated\n");
-					break;
-				}
-				tftp_config(SEL_LOAD_LINUX_WRITE_FLASH, argv);
+			confirm = getc();
+			if (confirm != 'y' && confirm != 'Y') {
+				printf(" Operation terminated\n");
+				break;
 			}
+			tftp_config(SEL_LOAD_LINUX_WRITE_FLASH, argv);
 			setenv("autostart", "no");
 
 			argc = 3;
-			if (useEnvAddy == 0)
-				do_tftpb(cmdtp, 0, argc, argv);
-			else
-				netboot_common (TFTP, cmdtp, argc, argv);
+			do_tftpb(cmdtp, 0, argc, argv);
 			load_address = simple_strtoul(argv[1], NULL, 16);
 			if (flash_kernel_image(load_address, NetBootFileXferSize) != 0)
 				goto retry_kernel_tftp;
