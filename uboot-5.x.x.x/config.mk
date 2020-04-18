@@ -779,7 +779,7 @@ AFLAGS += -fpic -mabicalls
 endif
 
 ifeq ($(MT7621_MP),y)
-CFLAGS += -G0 -fomit-frame-pointer -Wno-pointer-sign
+CFLAGS += -G0 -fpic -fomit-frame-pointer -Wno-pointer-sign
 endif
 
 #ifeq ($(MT7621_MP),y)
